@@ -933,9 +933,6 @@ function exportHTML() {
 function downloadFile(content) {
   const fileName = document.getElementById('fileName').value.replace(/\s+/g, '').toUpperCase()
 
-  const needsApproval = document.getElementById('approveNeeded').checked
-  const approvalText = needsApproval ? '(Approve needed)' : ''
-
   const htmlContent = `
         ${content}
        `
@@ -944,7 +941,7 @@ function downloadFile(content) {
   const a = document.createElement('a')
   a.href = URL.createObjectURL(file)
 
-  a.download = `${fileName}_html${approvalText}.html`
+  a.download = `${fileName}_html.html`
   a.click()
   URL.revokeObjectURL(a.href)
 }
@@ -1063,10 +1060,6 @@ function downloadMjmlFile(content) {
     .toUpperCase()
 
 
-  const needsApproval = document.getElementById('approveNeeded').checked
-  const approvalText = needsApproval ? '(Approve needed)' : ''
-
-
   const htmlContent = `${content}`
   const file = new Blob([htmlContent], { type: 'text/html' })
 
@@ -1074,7 +1067,7 @@ function downloadMjmlFile(content) {
   const a = document.createElement('a')
   a.href = URL.createObjectURL(file)
 
-  a.download = `${mjmlFileName}_mjml${approvalText}.html`
+  a.download = `${mjmlFileName}_mjml.html`
   a.click()
 
 
