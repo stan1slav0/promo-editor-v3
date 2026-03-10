@@ -31,28 +31,30 @@
           </div>
         </div>
       </div>
-      <div class="main-input-number-block">
-        <!-- Поле для введення номера файлу -->
-        <div class="input-name-block">
-          <label class="input-name-label" for="fileName">Введіть імʼя файлу:</label>
-          <button class="button-decrement" onclick="changeNumber(-1)">&#11015;</button>
-          <input class="input-name" type="text" id="fileName" value="" autocomplete="off">
-          <button class="button-increment" onclick="changeNumber(1)">&#11014;</button>
-        </div>
-      </div>
-
-      <div class="images-toolbar">
-        <!--<button id="btn-opt">Попередній перегляд: оптимізувати в редакторі</button>-->
-        <button class="primary-button" id="btn-download">Завантажити images ZIP</button>
-        <div class="color-wrapper">
-          <label class="input-color-label" for="bgColor">Фон для прозорості:</label>
-          <div class="input-color-wrapper">
-            <input class="input-color" type="color" id="bgColor" value="#ffffff" />
+      <div class="sector-flex">
+        <div class="main-input-number-block">
+          <!-- Поле для введення номера файлу -->
+          <div class="input-name-block">
+            <label class="input-name-label" for="fileName">Введіть імʼя файлу:</label>
+            <button class="button-decrement" onclick="changeNumber(-1)">&#11015;</button>
+            <input class="input-name" type="text" id="fileName" value="" autocomplete="off">
+            <button class="button-increment" onclick="changeNumber(1)">&#11014;</button>
           </div>
         </div>
-        <div class="jpg-quality-block">
-          <label class="jpg-quality-label" for="jpgQuality">Якість JPG:</label>
-          <input class="jpg-quality-input" type="number" id="jpgQuality" min="0.5" max="1" step="0.05" value="0.82">
+
+        <div class="images-toolbar">
+          <!--<button id="btn-opt">Попередній перегляд: оптимізувати в редакторі</button>-->
+          <button class="primary-button" id="btn-download">Завантажити images ZIP</button>
+          <div class="color-wrapper">
+            <label class="input-color-label" for="bgColor">Фон для прозорості:</label>
+            <div class="input-color-wrapper">
+              <input class="input-color" type="color" id="bgColor" value="#ffffff" />
+            </div>
+          </div>
+          <div class="jpg-quality-block">
+            <label class="jpg-quality-label" for="jpgQuality">Якість JPG:</label>
+            <input class="jpg-quality-input" type="number" id="jpgQuality" min="0.5" max="1" step="0.05" value="0.82">
+          </div>
         </div>
       </div>
 
@@ -99,7 +101,7 @@
       </div>
 
       <div class="log-wrapper">
-        <h3 class="sm-main-headline">Лог</h3>
+        <h3 class="sm-main-headline" style="display: none;">Лог</h3>
         <div id="log" class="log"></div>
       </div>
     </div>
