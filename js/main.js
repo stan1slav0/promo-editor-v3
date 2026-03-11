@@ -1307,8 +1307,6 @@ async function downloadImagesFolder() {
   let index = 1
   let saved = 0
 
-  log(`🚀 Починаємо завантаження для промо: ${promoName}...`)
-
   for (const img of imgs) {
     const src = img.getAttribute('src')
     if (!src) continue
@@ -1338,7 +1336,7 @@ async function downloadImagesFolder() {
       setTimeout(() => URL.revokeObjectURL(link.href), 1000)
     }
 
-    log(`• Надіслано: ${fileName}`)
+    log(`${fileName}`)
     index++
     saved++
 
@@ -1350,8 +1348,7 @@ async function downloadImagesFolder() {
   if (saved === 0) {
     log('Немає зображень для збереження.')
   } else {
-    log(`\n✅ ГОТОВО! ${saved} зображень надіслано в папку ${promoName}`)
-    log(`⚠️ Переконайтеся, що в налаштуваннях браузера ВИМКНЕНО опцію "Всегда указывать место скачивания"`)
+    log(`\n✅ Done! ${saved} images sent to ${promoName}`)
   }
 }
 
@@ -1378,4 +1375,3 @@ editor.addEventListener('paste', (e) => {
 
 /*---new-script-for-image-end---*/
 
-// 11
