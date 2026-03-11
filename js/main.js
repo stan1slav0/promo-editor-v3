@@ -1,7 +1,6 @@
 // Используем глобальные объекты из окна браузера
 const prettier = window.prettier
 const prettierPluginHtml = window.prettierPlugins.html
-
 async function formatWithPrettier(htmlString) {
   try {
     // 1. Основное форматирование
@@ -28,6 +27,16 @@ async function formatWithPrettier(htmlString) {
     // 4. Фикс для <br>: убираем слэши и склеиваем идущие подряд
     formatted = formatted.replace(/<br\s*\/?>/gi, '<br>')
     formatted = formatted.replace(/<br>\s+(?=<br>)/g, '<br>')
+
+    // 5. Фикс знаков препинания: удаляем пробелы и переносы строк перед . , ! ? : ;
+    formatted = formatted.replace(/\s+([.,!?:;])/g, '$1')
+
+    // 6. ФИКС ССЫЛОК: Схлопываем всю ссылку в одну строку и убираем пробел в конце
+    formatted = formatted.replace(/(<a[^>]*>)([\s\S]*?)(<\/a>)/gi, (match, startTag, content, endTag) => {
+      // Убираем переносы строк и лишние пробелы внутри контента ссылки
+      const cleanContent = content.replace(/\s+/g, ' ').trim()
+      return `${startTag}${cleanContent}${endTag}`
+    })
 
     return formatted
   } catch (e) {
