@@ -1365,6 +1365,9 @@ editor.addEventListener('paste', (e) => {
   } else {
     log('Вставлено без зображень.')
   }
-});
+})
 
 /*---new-script-for-image-end---*/
+
+
+// test
