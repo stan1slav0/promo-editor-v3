@@ -1300,6 +1300,26 @@ editor.addEventListener('paste', (e) => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+  // --- Функция для восстановления категории из Storage ---
+  const restoreCategory = () => {
+    const savedCategory = localStorage.getItem('selectedCategory')
+    if (savedCategory) {
+      const targetBtn = Array.from(document.querySelectorAll('.category-wrap__link'))
+        .find(btn => btn.textContent.trim().toLowerCase() === savedCategory.toLowerCase())
+
+      if (targetBtn) {
+        const parent = targetBtn.closest('.category-wrap')
+        const currentActive = parent.querySelector('._active')
+        if (currentActive) currentActive.classList.remove('_active')
+
+        targetBtn.classList.add('_active')
+
+        const categoryDisplay = document.querySelector('#category-name')
+        if (categoryDisplay) categoryDisplay.textContent = targetBtn.textContent.trim()
+      }
+    }
+  }
+
   // Mini modal
   document.querySelectorAll('.mini-modal__btn').forEach(btn => {
     btn.addEventListener('click', function (e) {
@@ -1331,12 +1351,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
+  // Категории
   document.querySelectorAll('.category-wrap__link').forEach(btn => {
     btn.addEventListener('click', function (e) {
       e.preventDefault()
 
       const parent = btn.closest('.category-wrap')
-
       const isActive = btn.classList.contains('_active')
 
       if (!isActive) {
@@ -1346,11 +1366,16 @@ document.addEventListener('DOMContentLoaded', () => {
         let btnText = btn.textContent.trim()
         document.querySelector('#category-name').textContent = btnText
 
+        localStorage.setItem('selectedCategory', btnText.toLowerCase())
+
         document.querySelectorAll('.mini-modal__btn').forEach(b => b.classList.remove('_active'))
         document.querySelectorAll('.mini-modal__modal').forEach(m => m.classList.remove('_active'))
       }
     })
   })
+
+  restoreCategory()
+
   // ENd Mini modal
 })
 
@@ -1358,19 +1383,21 @@ function isTouchDevice() {
   return 'ontouchstart' in window || navigator.maxTouchPoints
 }
 
-// Используем делегирование: вешаем событие на весь документ или на обертку .category-wrap
+// Делегирование события клика
 document.addEventListener('click', function (event) {
-  // Проверяем, что кликнули именно по кнопке категории
   if (event.target && event.target.classList.contains('category-wrap__link')) {
 
-    // 1. Находим все кнопки в этом блоке
     const parent = event.target.closest('.category-wrap')
     const allButtons = parent.querySelectorAll('.category-wrap__link')
 
-    // 2. Удаляем активный класс у всех и добавляем текущей
+    // 1. Убираем активный класс у всех и добавляем текущей
     allButtons.forEach(btn => btn.classList.remove('_active'))
     event.target.classList.add('_active')
 
-    console.log("Выбрана категория:", event.target.textContent.trim())
+    // 2. СОХРАНЕНИЕ: записываем текст выбранной категории в localStorage
+    const categoryName = event.target.textContent.trim().toLowerCase()
+    localStorage.setItem('selectedCategory', categoryName)
+
+    console.log("Категория сохранена:", categoryName)
   }
 })
