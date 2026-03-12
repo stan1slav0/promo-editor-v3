@@ -352,7 +352,8 @@ body {
 .main-input-number-block {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: 20px;
 }
 
 .input-name-label,
@@ -512,4 +513,103 @@ input::-webkit-inner-spin-button {
 /* Для Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.mini-modal
+{
+    position: relative;
+}
+
+.mini-modal__modal
+{
+  position: absolute;
+  left: 0;
+  top: calc(100% + 5px);
+    z-index: 80;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition: opacity .2s linear, visibility .2s linear;
+    background-color: #fff;
+    border-radius: 8px;
+    min-width: 100%;
+    overflow: hidden;
+}
+
+.mini-modal__modal._active
+{
+    visibility: visible;
+
+    pointer-events: auto;
+
+    opacity: 1;
+}
+
+.mini-modal__btn{
+  display: block;
+
+  border-radius: 8px;
+  border: 3px solid $primary-blue;
+  cursor: pointer;
+  background: rgba(0, 146, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 9px 44px 9px 14px;
+  color: $primary-blue;
+  font-family: $main-font;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.14px;
+  transition: .5s linear;
+  width: 160px;
+  text-align: left;
+  position: relative;
+
+  &::after{
+    content: '';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    margin-top: -8px;
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    width: 8px;
+    height: 8px;
+    transform: rotate(-45deg);
+  }
+
+  &:hover {
+    color: $font-color-primary;
+    border: 3px solid $primary-blue;
+    background: $primary-blue;
+    box-shadow: 0 0 12px $medium-blue;
+  }
+}
+
+.mini-modal__link{
+  display: block;
+  width: 100%;
+  border-radius: 0;
+  line-height: 36px;
+  font-size: 14px;
+  padding: 0 17px;
+  text-align: left;
+  color: #000;
+  font-weight: 700;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color .5s linear;
+
+  &._active{
+    background-color: rgba(0, 146, 255, 0.3);
+  }
+
+  &:hover{
+    background-color: rgba(0, 146, 255, 0.1);
+  }
 }
