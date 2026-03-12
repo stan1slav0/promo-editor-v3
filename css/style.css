@@ -1,9 +1,10 @@
+@charset "UTF-8";
 .limit {
   position: relative;
   margin: 0 auto;
   max-width: 1440px;
   width: 100%;
-  padding: 40px 60px 100px 60px;
+  padding: 46px 20px;
 }
 
 * {
@@ -36,81 +37,58 @@ body {
   10% {
     background-position: 33% 0, 0 33%;
   }
-
   20% {
     background-position: 66% 0, 0 66%;
   }
-
   30% {
     background-position: 99% 0, 0 99%;
   }
-
   40% {
     background-position: 100% 33%, 33% 100%;
   }
-
   50% {
     background-position: 100% 66%, 66% 100%;
   }
-
   60% {
     background-position: 100% 100%, 100% 100%;
   }
-
   70% {
     background-position: 66% 100%, 100% 66%;
   }
-
   80% {
     background-position: 33% 100%, 100% 33%;
   }
-
   80% {
     background-position: 0 100%, 100% 0;
   }
-
   90% {
     background-position: 66% 75%, 50% 50%;
   }
-
   100% {
     background-position: 0 0, 100% 100%;
   }
 }
-
 .main-wrapper {
   background: url("../image/bubbles-2.png") left top repeat;
 }
-
 .main-wrapper ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
-
 .main-wrapper ::-webkit-scrollbar-track {
   background-color: #E1F0FF;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
 }
-
 .main-wrapper ::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
   background: #0092FF;
-}
-
-.code-blocks-wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.code-blocks-wrapper .code-block {
-  width: calc(50% - 30px);
 }
 
 .code-buttons-wrapper {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
 }
 
@@ -121,8 +99,8 @@ body {
   font-size: 16px;
   border: 3px solid #bdcef6;
   /*border-radius: 15px;*/
-  padding: 20px;
-  border-radius: 20px 0 8px 0;
+  padding: 17px;
+  border-radius: 8px;
   background-color: rgba(255, 249, 247, 0.2);
   backdrop-filter: blur(15px);
   -webkit-transition-property: all;
@@ -141,10 +119,10 @@ body {
   -o-transition-timing-function: ease;
   transition-timing-function: ease;
   overflow-y: auto;
+  display: block;
+  resize: none;
 }
-
-.html-code-block:focus,
-.html-code-block:active,
+.html-code-block:focus, .html-code-block:active,
 .primary-text-editor-block:focus,
 .primary-text-editor-block:active {
   outline: 0;
@@ -154,6 +132,7 @@ body {
 
 .html-code-block {
   height: 100px;
+  flex-grow: 1;
 }
 
 /*.primary-text-editor-block {
@@ -161,24 +140,6 @@ body {
 }*/
 .primary-text-editor-block {
   overflow-y: auto;
-}
-
-.primary-text-editor-bg {
-  position: relative;
-}
-
-.primary-text-editor-bg:after {
-  content: "";
-  display: block;
-  width: 100px;
-  height: 107px;
-  position: absolute;
-  right: 20px;
-  top: -96px;
-  background: url("../image/cat-8.png") center no-repeat;
-  -webkit-background-size: contain;
-  background-size: contain;
-  z-index: 100;
 }
 
 .input-number {
@@ -204,16 +165,14 @@ body {
   background-color: rgba(255, 249, 247, 0.2);
   backdrop-filter: blur(15px);
 }
-
-.input-number:focus,
-.input-number:active {
+.input-number:focus, .input-number:active {
   outline: 0;
   border: 3px solid #0092FF;
   box-shadow: 0 0 10px #0092FF;
 }
 
 .primary-button {
-  border-radius: 20px 0 20px 0;
+  border-radius: 8px;
   border: 3px solid #0092FF;
   cursor: pointer;
   background: rgba(0, 146, 255, 0.1);
@@ -231,18 +190,17 @@ body {
   -ms-transition-property: all;
   -o-transition-property: all;
   transition-property: all;
-  -webkit-transition-duration: 0.7s;
-  -moz-transition-duration: 0.7s;
-  -ms-transition-duration: 0.7s;
-  -o-transition-duration: 0.7s;
-  transition-duration: 0.7s;
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  -ms-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
   -webkit-transition-timing-function: ease;
   -moz-transition-timing-function: ease;
   -ms-transition-timing-function: ease;
   -o-transition-timing-function: ease;
   transition-timing-function: ease;
 }
-
 .primary-button:hover {
   /*background: $font-color-primary;*/
   /*color: $primary-blue;*/
@@ -256,26 +214,18 @@ body {
 .sm-main-headline {
   color: #1A1D22;
   font-family: "Wix Madefor Display", sans-serif;
-  font-size: 30px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: 0.57px;
-  margin-bottom: 30px;
+  margin-bottom: 16px;
   text-shadow: 0 0 8px #0092FF;
-  text-align: center;
+  width: 100%;
 }
 
 .sm-main-headline {
-  font-size: 20px;
-}
-
-.primary-text-editor-wrapper {
-  margin-bottom: 20px;
-}
-
-.primary-text-editor-wrapper .main-headline {
-  margin-right: 140px;
+  font-size: 16px;
 }
 
 .input-number-label {
@@ -288,10 +238,6 @@ body {
   margin-right: 10px;
 }
 
-.primary-button {
-  margin: 10px;
-}
-
 .code-buttons-wrapper {
   margin-left: -10px;
   margin-right: -10px;
@@ -301,7 +247,7 @@ body {
 .input-name,
 .jpg-quality-input {
   border: 3px solid #bdcef6;
-  border-radius: 20px 0 20px 0;
+  border-radius: 8px;
   padding: 10px;
   width: 120px;
   -webkit-transition-property: all;
@@ -339,14 +285,15 @@ body {
   background-color: transparent;
   color: #a1b5d2;
   padding: 5px;
+  height: 41px;
 }
 
 .button-decrement {
-  margin-top: auto;
+  margin-right: 7px;
 }
 
 .button-increment {
-  margin-bottom: auto;
+  margin-left: 7px;
 }
 
 .button-decrement:hover,
@@ -357,7 +304,6 @@ body {
 .input-name-block {
   display: flex;
   align-items: center;
-  padding: 10px;
 }
 
 .main-input-number-block {
@@ -369,9 +315,13 @@ body {
 .input-name-label,
 .input-color-label,
 .jpg-quality-label {
-  font-size: 18px;
+  font-size: 16px;
   font-style: italic;
   font-weight: 700;
+}
+
+.input-name-label {
+  margin-right: 8px;
 }
 
 .name-checkbox {
@@ -391,12 +341,11 @@ body {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  margin-top: 20px;
 }
 
 .color-wrapper {
-  display: none;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
@@ -414,7 +363,7 @@ body {
 .input-color-wrapper {
   overflow: hidden;
   border: 3px solid #bdcef6;
-  border-radius: 20px 0 20px 0;
+  border-radius: 8px;
   width: 80px;
   height: 40px;
   position: relative;
@@ -426,23 +375,24 @@ body {
 }
 
 .log-wrapper {
-  padding-top: 30px;
-  padding-bottom: 30px;
+  margin-top: 20px;
 }
 
 .log {
   border: 3px solid #bdcef6;
-  border-radius: 20px 0 20px 0;
+  border-radius: 8px;
   width: 100%;
   height: 100px;
   overflow-y: auto;
   background-color: rgba(255, 249, 247, 0.2);
   backdrop-filter: blur(15px);
   white-space: pre-wrap;
+  font-size: 16px;
+  padding: 17px;
 }
 
 .jpg-quality-block {
-  display: none;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
 }
@@ -456,22 +406,69 @@ body {
   margin-left: 10px;
 }
 
-.primary-button,
-.color-wrapper,
-.jpg-quality-block {
-  margin-top: 10px;
-  margin-bottom: 10px;
+.primary-button {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-
-
-
-.sector-flex {
+.flex-cols {
   display: flex;
-  justify-content: center;
+  align-items: stretch;
+  align-content: stretch;
   gap: 20px;
-  align-items: center;
+  margin-top: 20px;
+  min-height: calc(100vh - 100px - 41px - 20px - 20px - 20px - 41px - 100px);
+}
 
+.flex-col {
+  width: calc(50% - 15px);
+  display: flex;
+  flex-direction: column;
+}
+
+.code-blocks-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-grow: 1;
+}
+
+.code-block {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.code-inner-block {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.primary-text-editor-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.primary-text-editor-bg {
+  flex-grow: 1;
+}
+
+.primary-text-editor-block {
+  min-height: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Для Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 /*# sourceMappingURL=style.css.map */
