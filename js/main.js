@@ -19,8 +19,11 @@ function generateDynamicImgSrc(index) {
   const prefix = prefixMatch ? prefixMatch[0] : 'promo'
   const suffix = suffixMatch ? suffixMatch[0] : '0'
 
-  // 4. Формируем URL
-  return `https://storage.5th-elementagency.com/files/Promo/${category}/${prefix}/lift-${suffix}/img-${index}.jpg`
+  if (category !== 'alpha') {
+    return `https://storage.5th-elementagency.com/files/Promo/${category}/${prefix}/lift-${suffix}/img-${index}.jpg`
+  } else {
+    return `https://alphaonest.com/files/promo/${prefix}/lift-${suffix}/img-${index}.jpg`
+  }
 }
 
 const prettier = window.prettier
