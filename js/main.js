@@ -975,9 +975,13 @@ async function exportHTML() {
   editorContent = addOneBr(editorContent)
   editorContent = replaceTripleBrWithSingle(editorContent)
 
-  // ФИНАЛЬНЫЙ ШТРИХ: Форматирование перед выводом
   const prettyHtml = await formatWithPrettier(editorContent)
+
+  // Обновляем поле (на всякий случай, если оно вам еще нужно визуально)
   document.getElementById('output').value = prettyHtml
+
+  // ВОЗВРАЩАЕМ результат, чтобы его можно было подхватить
+  return prettyHtml
 }
 
 function downloadFile(content) {
@@ -995,9 +999,15 @@ function downloadFile(content) {
 }
 
 
-document.getElementById("downloadBtn").addEventListener("click", function () {
-  const editableText = document.getElementById("output").value
-  downloadFile(editableText)
+document.getElementById("downloadBtn").addEventListener("click", async function () {
+  try {
+    const exportedContent = await exportHTML()
+
+    downloadFile(exportedContent)
+  } catch (error) {
+    console.error("Ошибка при экспорте или скачивании:", error)
+    alert("Что-то пошло не так при генерации файла.")
+  }
 })
 //end html js code
 
@@ -1097,9 +1107,13 @@ async function exportMJML() {
   editorContent = addOneBr(editorContent)
   editorContent = replaceTripleBrWithSingle(editorContent)
 
-  // ФИНАЛЬНЫЙ ШТРИХ: Форматирование перед выводом
   const prettyMjml = await formatWithPrettier(editorContent)
+
+  // Обновляем поле (на всякий случай, если оно вам еще нужно визуально)
   document.getElementById('mjmlOutput').value = prettyMjml
+
+  // ВОЗВРАЩАЕМ результат, чтобы его можно было подхватить
+  return prettyMjml
 }
 
 function downloadMjmlFile(content) {
@@ -1126,9 +1140,17 @@ function downloadMjmlFile(content) {
 }
 
 
-document.getElementById("mjmlDownloadBtn").addEventListener("click", function () {
-  const editableText = document.getElementById("mjmlOutput").value
-  downloadMjmlFile(editableText)
+document.getElementById("mjmlDownloadBtn").addEventListener("click", async function () {
+  try {
+    // 1. Запускаем экспорт и ждем завершения
+    const exportedContent = await exportMJML()
+
+    // 2. Сразу скачиваем полученный контент
+    downloadMjmlFile(exportedContent)
+  } catch (error) {
+    console.error("Ошибка при экспорте или скачивании:", error)
+    alert("Что-то пошло не так при генерации файла.")
+  }
 })
 
 // end mjml code
@@ -1262,36 +1284,6 @@ async function toJpeg600(blob, bgColor = '#ffffff') {
   return { outBlob, targetW, targetH, wasDownscaled }
 }
 
-// Кнопка "оптимізувати в редакторі"
-/*
-async function previewOptimize() {
-    logEl.textContent = '';
-    const imgs = Array.from(editor.querySelectorAll('img'));
-    if (!imgs.length) return log('Немає <img> у редакторі.');
-
-    const bg = bgPicker.value || '#ffffff';
-    let ok = 0;
-
-    for (const img of imgs) {
-        const src = img.getAttribute('src');
-        if (!src) continue;
-        const blob = await getBlobFromSrc(src);
-        if (!blob) continue;
-
-        const { outBlob, targetW, wasDownscaled } = await toJpeg600(blob, bg);
-        const url = URL.createObjectURL(outBlob);
-        img.setAttribute('src', url);
-        img.setAttribute('width', targetW);
-        img.removeAttribute('height');
-        if (!img.hasAttribute('alt')) img.setAttribute('alt', '');
-        ok++;
-        log(`• OK (${wasDownscaled ? '↓ до ' + targetW + 'px' : '≤600px вже ок'}), прев’ю оновлено`);
-    }
-    if (!ok) log('Жодне зображення не оптимізоване (ймовірно CORS). Вставляй так, щоб картинки приходили файлом/dataURL.');
-}
-*/
-
-
 async function downloadImagesFolder() {
   logEl.textContent = ''
   const imgs = Array.from(editor.querySelectorAll('img'))
@@ -1355,6 +1347,7 @@ async function downloadImagesFolder() {
 // UI події
 /*document.getElementById('btn-opt').addEventListener('click', previewOptimize);*/
 document.getElementById('btn-download').addEventListener('click', downloadImagesFolder)
+document.getElementById('mjmlDownloadBtn').addEventListener('click', downloadImagesFolder)
 
 
 editor.addEventListener('paste', (e) => {
