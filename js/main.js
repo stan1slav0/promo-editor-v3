@@ -1368,3 +1368,61 @@ editor.addEventListener('paste', (e) => {
 
 /*---new-script-for-image-end---*/
 
+document.addEventListener('DOMContentLoaded', () =>{
+  // Mini modal
+	document.querySelectorAll('.mini-modal__btn').forEach(btn => {
+		btn.addEventListener('click', function(e) {
+			e.preventDefault();
+			const parent = btn.closest('.mini-modal');
+			const modal = parent.querySelector('.mini-modal__modal');
+
+			const isActive = btn.classList.contains('_active');
+
+			document.querySelectorAll('.mini-modal__btn').forEach(b => b.classList.remove('_active'));
+			document.querySelectorAll('.mini-modal__modal').forEach(m => m.classList.remove('_active'));
+
+			if (isTouchDevice()) document.body.style.cursor = 'default';
+
+			if (!isActive) {
+				btn.classList.add('_active');
+				if (modal) modal.classList.add('_active');
+
+				if (isTouchDevice()) document.body.style.cursor = 'pointer';
+			}
+		});
+	});
+
+	document.addEventListener('click', function(e) {
+		if (!e.target.closest('.mini-modal')) {
+			document.querySelectorAll('.mini-modal__modal, .mini-modal__btn').forEach(el => el.classList.remove('_active'));
+
+			if (isTouchDevice()) document.body.style.cursor = 'default';
+		}
+	});
+
+  document.querySelectorAll('.category-wrap__link').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+			e.preventDefault();
+      
+			const parent = btn.closest('.category-wrap');
+
+			const isActive = btn.classList.contains('_active');
+
+			if (!isActive) {
+        parent.querySelector('._active').classList.remove('_active')
+				btn.classList.add('_active');
+
+        let btnText = btn.textContent.trim();
+        document.querySelector('#category-name').textContent = btnText;
+
+        document.querySelectorAll('.mini-modal__btn').forEach(b => b.classList.remove('_active'));
+			  document.querySelectorAll('.mini-modal__modal').forEach(m => m.classList.remove('_active'));
+			}
+		});
+  });
+  // ENd Mini modal
+});
+
+function isTouchDevice() {
+  return 'ontouchstart' in window || navigator.maxTouchPoints;
+}

@@ -27,10 +27,21 @@
       <div class="main-input-number-block">
         <!-- Поле для введення номера файлу -->
         <div class="input-name-block">
-          <label class="input-name-label" for="fileName">Введіть імʼя файлу:</label>
+          <!-- <label class="input-name-label" for="fileName">Введіть імʼя файлу:</label> -->
           <button class="button-decrement" onclick="changeNumber(-1)">&#11015;</button>
           <input class="input-name" type="text" id="fileName" value="" autocomplete="off">
           <button class="button-increment" onclick="changeNumber(1)">&#11014;</button>
+        </div>
+
+        <div class="mini-modal">
+          <button type="button" class="mini-modal__btn" id="category-name">Finance</button>
+
+          <div class="mini-modal__modal category-wrap">
+            <button type="button" class="mini-modal__link _active category-wrap__link">Finance</button>
+            <button type="button" class="mini-modal__link category-wrap__link">Health</button>
+            <button type="button" class="mini-modal__link category-wrap__link">Pets</button>
+            <button type="button" class="mini-modal__link category-wrap__link">Alpha</button>
+          </div>
         </div>
       </div>
 
