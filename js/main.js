@@ -1289,14 +1289,39 @@ editor.addEventListener('paste', (e) => {
   const hasImgs = /<img\b[^>]*src=/i.test(html)
   const hasDataURIs = /src=["']data:image\//i.test(html)
 
+  // Находим наш блок категорий
+  const categoryModal = document.querySelector('.mini-modal')
+
   if (hasFiles || hasDataURIs) {
     log('Вставлено зображення як файл/dataURL — все ок.')
+    if (categoryModal) categoryModal.classList.add('_show') // Показываем
   } else if (hasImgs) {
-    log('Вставлено зображення як URL — спробуємо завантажити. Якщо не вийде, з’явиться попередження.')
+    log('Вставлено зображення як URL — спробуємо завантажити.')
+    if (categoryModal) categoryModal.classList.add('_show') // Показываем
   } else {
     log('Вставлено без зображень.')
+    // Если нужно скрывать обратно при вставке текста без фото:
+    if (categoryModal) categoryModal.classList.remove('_show')
   }
 })
+
+function updateCategoryVisibility() {
+  const categoryModal = document.querySelector('.mini-modal')
+  const hasImagesInEditor = editor.querySelectorAll('img').length > 0
+
+  if (hasImagesInEditor) {
+    categoryModal.classList.add('_show')
+  } else {
+    categoryModal.classList.remove('_show')
+  }
+}
+
+// Отслеживаем любые изменения в редакторе (удаление/добавление картинок)
+const observer = new MutationObserver(() => {
+  updateCategoryVisibility()
+})
+
+observer.observe(editor, { childList: true, subtree: true })
 
 
 document.addEventListener('DOMContentLoaded', () => {
