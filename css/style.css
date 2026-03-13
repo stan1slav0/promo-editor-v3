@@ -73,7 +73,8 @@ input[type=number] {
   margin-bottom: 20px;
   flex-wrap: wrap;
   gap: 20px;
-  padding-left: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .html-code-block {
@@ -355,7 +356,7 @@ input[type=number] {
   align-content: stretch;
   gap: 24px;
   margin-top: 24px;
-  min-height: calc(100vh - 100px - 41px - 24px - 24px - 24px - 41px - 100px);
+  min-height: calc(100vh - 92px - 40px - 48px - 100px);
 }
 
 .flex-col {
@@ -559,7 +560,7 @@ input[type=number] {
   position: relative;
   transform: skewX(-20deg);
   display: block;
-  min-width: 140px;
+  min-width: 116px;
   height: 40px;
   padding: 0 20px;
   font-size: 16px;
@@ -600,7 +601,47 @@ input[type=number] {
   background-position: 100% 50%;
   box-shadow: 0 0 10px #DE46D4;
 }
+.main-btn_icon {
+  min-width: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.main-btn_icon span {
+  padding-right: 26px;
+}
+.main-btn_icon + .main-btn_icon {
+  margin-left: -10px;
+}
+.main-btn_marg {
+  margin-left: auto;
+}
+.main-btn_noicon span {
+  padding-right: 0;
+}
+.main-btn._active::before {
+  background-position: 50% 50%;
+  box-shadow: 0 0 2px #6BF8F9, 0 0 5px #DE46D4;
+  animation: activePulse 2s linear infinite alternate;
+}
 
+.category-wrap {
+  display: none;
+  gap: 20px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.category-wrap._show {
+  display: flex;
+}
+
+@keyframes activePulse {
+  0% {
+    box-shadow: 0 0 2px #6BF8F9, 0 0 5px #DE46D4;
+  }
+  100% {
+    box-shadow: 0 0 15px #6BF8F9, 0 0 20px #DE46D4;
+  }
+}
 .output-glass {
   margin-top: 12px;
   background: rgba(0, 0, 0, 0.35);

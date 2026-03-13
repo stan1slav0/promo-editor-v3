@@ -1222,7 +1222,8 @@ async function toJpeg600(blob, bgColor = '#ffffff') {
   ctx.fillStyle = bgColor
   ctx.fillRect(0, 0, targetW, targetH)
   ctx.drawImage(bmp, 0, 0, targetW, targetH)
-  const qualityInput = document.getElementById('jpgQuality').value || 0.82
+  // const qualityInput = document.getElementById('jpgQuality').value || 0.82
+  const qualityInput = 0.82
   const outBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', parseFloat(qualityInput)))
   const wasDownscaled = targetW < naturalW
   return { outBlob, targetW, targetH, wasDownscaled }
@@ -1233,7 +1234,8 @@ async function downloadImagesFolder() {
   const imgs = Array.from(editor.querySelectorAll('img'))
   if (!imgs.length) return log('Немає <img> у редакторі.')
 
-  const bg = bgPicker.value || '#ffffff'
+  const bg = '#ffffff'
+  // const bg = bgPicker.value || '#ffffff'
 
   const rawName = document.getElementById('fileName').value || 'PROMO'
   const promoName = rawName.replace(/\s+/g, '').toUpperCase()
@@ -1290,7 +1292,7 @@ editor.addEventListener('paste', (e) => {
   const hasDataURIs = /src=["']data:image\//i.test(html)
 
   // Находим наш блок категорий
-  const categoryModal = document.querySelector('.mini-modal')
+  const categoryModal = document.querySelector('.category-wrap')
 
   if (hasFiles || hasDataURIs) {
     log('Вставлено зображення як файл/dataURL — все ок.')
@@ -1306,7 +1308,7 @@ editor.addEventListener('paste', (e) => {
 })
 
 function updateCategoryVisibility() {
-  const categoryModal = document.querySelector('.mini-modal')
+  const categoryModal = document.querySelector('.category-wrap')
   const hasImagesInEditor = editor.querySelectorAll('img').length > 0
 
   if (hasImagesInEditor) {
@@ -1330,7 +1332,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedCategory = localStorage.getItem('selectedCategory')
     if (savedCategory) {
       const targetBtn = Array.from(document.querySelectorAll('.category-wrap__link'))
-        .find(btn => btn.textContent.trim().toLowerCase() === savedCategory.toLowerCase())
+        .find(btn => btn.querySelector('span').textContent.trim().toLowerCase() === savedCategory.toLowerCase())
 
       if (targetBtn) {
         const parent = targetBtn.closest('.category-wrap')
@@ -1339,8 +1341,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         targetBtn.classList.add('_active')
 
-        const categoryDisplay = document.querySelector('#category-name')
-        if (categoryDisplay) categoryDisplay.textContent = targetBtn.textContent.trim()
+        // const categoryDisplay = document.querySelector('#category-name')
+        // if (categoryDisplay) categoryDisplay.textContent = targetBtn.textContent.trim()
       }
     }
   }
@@ -1376,27 +1378,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  // Категории
-  document.querySelectorAll('.category-wrap__link').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault()
+  // Категории - використовуємо делегування для динамічних кнопок
+  // Категории - делегирование для динамических кнопок
+  document.addEventListener('click', function (event) {
+    const btn = event.target.closest('.category-wrap__link')
+    if (btn) {
+      event.preventDefault()
 
       const parent = btn.closest('.category-wrap')
       const isActive = btn.classList.contains('_active')
 
       if (!isActive) {
-        parent.querySelector('._active').classList.remove('_active')
+        // Знімаємо активний клас з усіх кнопок у групі
+        parent.querySelectorAll('.category-wrap__link').forEach(b => b.classList.remove('_active'))
+
+        // Додаємо активний клас до натиснутої кнопки
         btn.classList.add('_active')
 
-        let btnText = btn.textContent.trim()
-        document.querySelector('#category-name').textContent = btnText
+        // Отримуємо текст кнопки та зберігаємо в localStorage
+        const btnText = btn.textContent.trim().toLowerCase()
+        localStorage.setItem('selectedCategory', btnText)
 
-        localStorage.setItem('selectedCategory', btnText.toLowerCase())
+        console.log("Категорія збережена:", btnText)
 
-        document.querySelectorAll('.mini-modal__btn').forEach(b => b.classList.remove('_active'))
-        document.querySelectorAll('.mini-modal__modal').forEach(m => m.classList.remove('_active'))
+        // Якщо потрібно, оновлюємо відображення категорії
+        // const categoryDisplay = document.querySelector('#category-name')
+        // if (categoryDisplay) categoryDisplay.textContent = btn.textContent.trim()
       }
-    })
+    }
   })
 
   restoreCategory()
@@ -1409,22 +1418,11 @@ function isTouchDevice() {
 }
 
 // Делегирование события клика
-document.addEventListener('click', function (event) {
-  if (event.target && event.target.classList.contains('category-wrap__link')) {
+// document.addEventListener('click', function (event) {
+//   if (event.target && event.target.classList.contains('category-wrap__link') ) {
 
-    const parent = event.target.closest('.category-wrap')
-    const allButtons = parent.querySelectorAll('.category-wrap__link')
-
-    // 1. Убираем активный класс у всех и добавляем текущей
-    allButtons.forEach(btn => btn.classList.remove('_active'))
-    event.target.classList.add('_active')
-
-    // 2. СОХРАНЕНИЕ: записываем текст выбранной категории в localStorage
-    const categoryName = event.target.textContent.trim().toLowerCase()
-    localStorage.setItem('selectedCategory', categoryName)
-
-    console.log("Категория сохранена:", categoryName)
-  }
-})
+    
+//   }
+// })
 
 
