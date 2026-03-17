@@ -972,6 +972,17 @@ document.getElementById("downloadBtn").addEventListener("click", async function 
   }
 })
 
+document.getElementById("exportAll").addEventListener("click", async function () {
+  try {
+    await exportHTML()
+    await exportMJML()
+
+  } catch (error) {
+    console.error("Ошибка при экспорте или скачивании:", error)
+    alert("Что-то пошло не так при генерации файла.")
+  }
+})
+
 function wrapTextInMjmlTags(htmlContent) {
   htmlContent = htmlContent.replace(/<img[^>]*src="([^"]*)"[^>]*>/gi, function (match, src) {
 
