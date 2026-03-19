@@ -56,9 +56,7 @@ async function formatWithPrettier(htmlString) {
 
     formatted = formatted.replace(/(<a[^>]*>)([\s\S]*?)(<\/a>)/gi, (match, startTag, content, endTag) => {
       const cleanContent = content.replace(/\s+/g, ' ').trim()
-      // Добавляем \u200B сразу после скобки >. 
-      // Это позволит тексту упасть на новую строку, если тег слишком длинный.
-      return `${startTag}\u200B${cleanContent}${endTag}`
+      return `${startTag}${cleanContent}${endTag}`
     })
 
     return formatted
