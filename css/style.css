@@ -218,6 +218,19 @@ input[type=number] {
   border-radius: 0 16px 16px 0;
   z-index: 1;
 }
+.field-big__cat {
+  display: block;
+  width: 100px;
+  height: 107px;
+  position: absolute;
+  right: 20px;
+  top: -96px;
+  background: url("../image/cat-8.png") center no-repeat;
+  -webkit-background-size: contain;
+  background-size: contain;
+  z-index: 100;
+  pointer-events: none;
+}
 .field-big__line {
   position: absolute;
   left: 0;
