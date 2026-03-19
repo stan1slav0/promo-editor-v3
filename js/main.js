@@ -943,36 +943,11 @@ async function exportHTML() {
   editorContent = replaceTripleBrWithSingle(editorContent)
 
   const prettyHtml = await formatWithPrettier(editorContent)
-  const outputElement = document.getElementById('output')
 
-  // 1. Вставляем текст и красим его через Prism
-  outputElement.textContent = prettyHtml
-  Prism.highlightElement(outputElement)
-
-  setTimeout(() => {
-    const rawHtml = outputElement.innerHTML
-    const lines = rawHtml.split('\n')
-
-    const processedLines = lines.map(line => {
-      let indentHtml = ''
-
-      // 1. Вырезаем пробелы из начала и превращаем их в линии
-      const cleanLine = line.replace(/^(  )+/, (match) => {
-        const levels = match.length / 2
-        for (let i = 0; i < levels; i++) {
-          indentHtml += `<span class="indent-guide ig-${i % 5}"></span>`
-        }
-        return '' // Убираем пробелы из текста, так как теперь есть span-ы
-      })
-
-      // 2. Оборачиваем всё в структуру для Flexbox
-      return `<div class="code-line">${indentHtml}<span class="line-content">${cleanLine}</span></div>`
-    })
-
-    outputElement.innerHTML = processedLines.join('')
-  }, 20)
+  document.getElementById('output').value = prettyHtml
 
   return prettyHtml
+
 }
 
 function downloadFile(content) {
