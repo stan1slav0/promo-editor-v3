@@ -83,6 +83,7 @@ input[type=number] {
 .html-code-block {
   height: 100px;
   flex-grow: 1;
+  width: 100%;
 }
 
 .input-number {
@@ -281,10 +282,11 @@ input[type=number] {
   resize: none;
   padding: 17px;
   flex-grow: 1;
+  overflow-y: auto;
 }
 
 .field-big__area * {
-  color: #f1f1f1 !important;
+  /* color: #f1f1f1 !important; */
   background-color: transparent !important;
 }
 

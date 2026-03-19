@@ -56,7 +56,9 @@ async function formatWithPrettier(htmlString) {
 
     formatted = formatted.replace(/(<a[^>]*>)([\s\S]*?)(<\/a>)/gi, (match, startTag, content, endTag) => {
       const cleanContent = content.replace(/\s+/g, ' ').trim()
-      return `${startTag}${cleanContent}${endTag}`
+      // Добавляем \u200B сразу после скобки >. 
+      // Это позволит тексту упасть на новую строку, если тег слишком длинный.
+      return `${startTag}\u200B${cleanContent}${endTag}`
     })
 
     return formatted
@@ -941,8 +943,34 @@ async function exportHTML() {
   editorContent = replaceTripleBrWithSingle(editorContent)
 
   const prettyHtml = await formatWithPrettier(editorContent)
+  const outputElement = document.getElementById('output')
 
-  document.getElementById('output').value = prettyHtml
+  // 1. Вставляем текст и красим его через Prism
+  outputElement.textContent = prettyHtml
+  Prism.highlightElement(outputElement)
+
+  setTimeout(() => {
+    const rawHtml = outputElement.innerHTML
+    const lines = rawHtml.split('\n')
+
+    const processedLines = lines.map(line => {
+      let indentHtml = ''
+
+      // 1. Вырезаем пробелы из начала и превращаем их в линии
+      const cleanLine = line.replace(/^(  )+/, (match) => {
+        const levels = match.length / 2
+        for (let i = 0; i < levels; i++) {
+          indentHtml += `<span class="indent-guide ig-${i % 5}"></span>`
+        }
+        return '' // Убираем пробелы из текста, так как теперь есть span-ы
+      })
+
+      // 2. Оборачиваем всё в структуру для Flexbox
+      return `<div class="code-line">${indentHtml}<span class="line-content">${cleanLine}</span></div>`
+    })
+
+    outputElement.innerHTML = processedLines.join('')
+  }, 20)
 
   return prettyHtml
 }
@@ -1432,8 +1460,65 @@ function isTouchDevice() {
 // document.addEventListener('click', function (event) {
 //   if (event.target && event.target.classList.contains('category-wrap__link') ) {
 
-    
+
 //   }
 // })
 
 
+function colorizeNestedTags(container) {
+  // Находим все элементы, которые Prism пометил как части тега
+  const tokens = container.querySelectorAll('.token.tag')
+  const colors = ['#50fa7b', '#8be9fd', '#bd93f9', '#ffb86c', '#ff5555']
+
+  let depth = 0
+  const selfClosing = ['br', 'img', 'hr', 'meta', 'link', 'input']
+
+  // Временные переменные для обработки группы токенов одного тега
+  let currentTagColor = ''
+  let isClosing = false
+  let tagName = ''
+
+  tokens.forEach(token => {
+    const text = token.textContent.trim().toLowerCase()
+
+    // 1. Начало тега (символ < или </)
+    if (text === '<' || text === '</') {
+      isClosing = (text === '</')
+
+      if (isClosing) {
+        depth = Math.max(0, depth - 1)
+      }
+
+      currentTagColor = colors[depth % colors.length]
+      token.style.setProperty('color', currentTagColor, 'important')
+    }
+    // 2. Имя тега (идет сразу после < или </)
+    else if (text.match(/^[a-z0-9]+$/) && !tagName) {
+      tagName = text
+      token.style.setProperty('color', currentTagColor, 'important')
+
+      // Если это открывающий тег и он НЕ самозакрывающийся — увеличиваем глубину
+      if (!isClosing && !selfClosing.includes(tagName)) {
+        // Мы увеличим depth только когда тег полностью закроется символом '>'
+        // но цвет уже зафиксирован
+      }
+    }
+    // 3. Конец тега (символ > или />)
+    else if (text === '>' || text === '/>') {
+      token.style.setProperty('color', currentTagColor, 'important')
+
+      // Если это было открытие обычного тега, увеличиваем счетчик для вложенных элементов
+      if (!isClosing && !selfClosing.includes(tagName) && text !== '/>') {
+        depth++
+      }
+
+      // Сбрасываем флаги для следующего тега
+      tagName = ''
+      isClosing = false
+    }
+    // 4. Любые другие части внутри тега (атрибуты и т.д.)
+    else {
+      token.style.setProperty('color', currentTagColor, 'important')
+    }
+  })
+}

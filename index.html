@@ -19,6 +19,10 @@
   <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
   <script src="https://unpkg.com/prettier@3.0.3/standalone.js"></script>
   <script src="https://unpkg.com/prettier@3.0.3/plugins/html.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
 </head>
 
 <body>
@@ -142,7 +146,9 @@
                 <h2 class="sm-main-headline">HTML result:</h2>
                 <div class="field-big">
                   <div class="field-big__line"></div>
-                  <textarea class="field-big__area html-code-block" id="output" contenteditable="true"></textarea>
+                  <div class="field-big__area html-code-block">
+                    <pre><code class="language-html" id="output"></code></pre>
+                  </div>
                 </div>
               </div>
             </div>
