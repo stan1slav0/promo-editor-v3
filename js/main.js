@@ -812,7 +812,7 @@ function wrapTextInSpan(htmlContent) {
                    <tr>
                        <td class="img-bg-block" align="center" style="padding-top: 14px; padding-bottom: 14px;">
                            <a href="urlhere" target="_blank">
-                               <img alt="click" height="auto"
+                               <img alt="video" height="auto"
                                     src="${dynamicSrc}"
                                     style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;max-width: 560px;font-size:13px;"
                                     width="560"/>
@@ -999,7 +999,7 @@ function wrapTextInMjmlTags(htmlContent) {
                             <tr>
                               <td style="width:550px;">
                                 <a href="urlhere" target="_blank">
-                                  <img alt="click" src="${dynamicSrc}" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="550" height="auto" />
+                                  <img alt="video" src="${dynamicSrc}" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="550" height="auto" />
                                 </a>
                               </td>
                             </tr>
