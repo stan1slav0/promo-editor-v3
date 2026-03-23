@@ -433,7 +433,7 @@ function wrapSignatureImg(htmlContent) {
               <tr>
                 <td class="img-bg-block" align="left" style="padding-top: 14px; padding-bottom: 14px;">
                   <img alt="Signature" height="auto"
-                       src="https://storage.5th-elementagency.com/"
+                       src="sign_url"
                        style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:200px;max-width: 100%;font-size:13px;"
                        width="200"/>
                 </td>
@@ -722,8 +722,8 @@ function wrapSignatureImgMjml(htmlContent) {
                         <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
                           <tbody>
                             <tr>
-                              <td style="width:180px;">
-                                <img alt="Signature" src="https://storage.5th-elementagency.com/" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="180" height="auto" />
+                              <td style="width:200px;">
+                                <img alt="Signature" src="sign_url" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="200" height="auto" />
                               </td>
                             </tr>
                           </tbody>
@@ -1427,71 +1427,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function isTouchDevice() {
   return 'ontouchstart' in window || navigator.maxTouchPoints
-}
-
-// Делегирование события клика
-// document.addEventListener('click', function (event) {
-//   if (event.target && event.target.classList.contains('category-wrap__link') ) {
-
-
-//   }
-// })
-
-
-function colorizeNestedTags(container) {
-  // Находим все элементы, которые Prism пометил как части тега
-  const tokens = container.querySelectorAll('.token.tag')
-  const colors = ['#50fa7b', '#8be9fd', '#bd93f9', '#ffb86c', '#ff5555']
-
-  let depth = 0
-  const selfClosing = ['br', 'img', 'hr', 'meta', 'link', 'input']
-
-  // Временные переменные для обработки группы токенов одного тега
-  let currentTagColor = ''
-  let isClosing = false
-  let tagName = ''
-
-  tokens.forEach(token => {
-    const text = token.textContent.trim().toLowerCase()
-
-    // 1. Начало тега (символ < или </)
-    if (text === '<' || text === '</') {
-      isClosing = (text === '</')
-
-      if (isClosing) {
-        depth = Math.max(0, depth - 1)
-      }
-
-      currentTagColor = colors[depth % colors.length]
-      token.style.setProperty('color', currentTagColor, 'important')
-    }
-    // 2. Имя тега (идет сразу после < или </)
-    else if (text.match(/^[a-z0-9]+$/) && !tagName) {
-      tagName = text
-      token.style.setProperty('color', currentTagColor, 'important')
-
-      // Если это открывающий тег и он НЕ самозакрывающийся — увеличиваем глубину
-      if (!isClosing && !selfClosing.includes(tagName)) {
-        // Мы увеличим depth только когда тег полностью закроется символом '>'
-        // но цвет уже зафиксирован
-      }
-    }
-    // 3. Конец тега (символ > или />)
-    else if (text === '>' || text === '/>') {
-      token.style.setProperty('color', currentTagColor, 'important')
-
-      // Если это было открытие обычного тега, увеличиваем счетчик для вложенных элементов
-      if (!isClosing && !selfClosing.includes(tagName) && text !== '/>') {
-        depth++
-      }
-
-      // Сбрасываем флаги для следующего тега
-      tagName = ''
-      isClosing = false
-    }
-    // 4. Любые другие части внутри тега (атрибуты и т.д.)
-    else {
-      token.style.setProperty('color', currentTagColor, 'important')
-    }
-  })
 }
