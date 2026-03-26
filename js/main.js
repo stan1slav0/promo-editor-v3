@@ -1,18 +1,14 @@
 function generateDynamicImgSrc(index) {
-  // 1. Пытаемся найти активную категорию
   const activeCategoryBtn = document.querySelector('.category-wrap__link._active')
 
-  // Если кнопка найдена — берем текст, если нет — по умолчанию 'finance'
   let category = 'finance'
   if (activeCategoryBtn) {
     category = activeCategoryBtn.textContent.trim().toLowerCase()
   }
 
-  // 2. Инпут с названием (например, abdc123)
   const rawName = document.getElementById('fileName').value.trim() || 'PROMO'
   const promoName = rawName.replace(/\s+/g, '').toLowerCase()
 
-  // 3. Регулярки для букв и цифр
   const prefixMatch = promoName.match(/[a-z]+/)
   const suffixMatch = promoName.match(/\d+/)
 
@@ -1246,8 +1242,12 @@ async function downloadImagesFolder() {
   const imgs = Array.from(editor.querySelectorAll('img'))
   if (!imgs.length) return log('Немає <img> у редакторі.')
 
-  const bg = '#ffffff'
-  // const bg = bgPicker.value || '#ffffff'
+  // 1. Определяем категорию по активной кнопке
+  const activeCategoryBtn = document.querySelector('.category-wrap__link._active')
+  let categoryText = 'finance'
+  if (activeCategoryBtn) {
+    categoryText = activeCategoryBtn.textContent.trim().toLowerCase()
+  }
 
   const rawName = document.getElementById('fileName').value || 'PROMO'
   const promoName = rawName.replace(/\s+/g, '').toUpperCase()
@@ -1260,37 +1260,37 @@ async function downloadImagesFolder() {
     if (!src) continue
 
     const blob = await getBlobFromSrc(src)
-    if (!blob) {
-      log('— Пропущено (помилка завантаження): ' + src)
-      continue
-    }
+    if (!blob) continue
 
-    const { outBlob } = await toJpeg600(blob, bg)
+    // Сжатие до 600px
+    const { outBlob } = await toJpeg600(blob, '#ffffff')
 
+    // --- ВШИВАЕМ МЕТАДАННЫЕ ---
+    const blobWithMeta = await injectMetadata(outBlob, categoryText)
+
+    // --- ЧИСТОЕ ИМЯ ФАЙЛА (без префиксов) ---
     const fileName = `${promoName}_img-${index}.jpg`
 
+    // Скачивание
     if (typeof saveAs !== 'undefined') {
-      saveAs(outBlob, fileName)
+      saveAs(blobWithMeta, fileName)
     } else {
       const link = document.createElement('a')
-      link.href = URL.createObjectURL(outBlob)
+      link.href = URL.createObjectURL(blobWithMeta)
       link.download = fileName
       link.click()
       setTimeout(() => URL.revokeObjectURL(link.href), 1000)
     }
 
-    log(`${fileName}`)
     index++
     saved++
+    await new Promise(r => setTimeout(r, 300))
 
-    await new Promise(resolve => setTimeout(resolve, 300))
+    log(saved)
   }
 
-  if (saved === 0) {
-    log('Немає зображень для збереження.')
-  } else {
-    log(`\n✅ Done! ${saved} images sent to ${promoName}`)
-  }
+  logEl.textContent = ''
+  log(`${saved} images saved.`)
 }
 
 document.getElementById('btn-download').addEventListener('click', downloadImagesFolder)
@@ -1307,14 +1307,11 @@ editor.addEventListener('paste', (e) => {
   const categoryModal = document.querySelector('.category-wrap')
 
   if (hasFiles || hasDataURIs) {
-    log('Вставлено зображення як файл/dataURL — все ок.')
+    log('Images ready to download ✅')
     if (categoryModal) categoryModal.classList.add('_show') // Показываем
   } else if (hasImgs) {
-    log('Вставлено зображення як URL — спробуємо завантажити.')
     if (categoryModal) categoryModal.classList.add('_show') // Показываем
   } else {
-    log('Вставлено без зображень.')
-    // Если нужно скрывать обратно при вставке текста без фото:
     if (categoryModal) categoryModal.classList.remove('_show')
   }
 })
@@ -1427,4 +1424,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function isTouchDevice() {
   return 'ontouchstart' in window || navigator.maxTouchPoints
+}
+
+async function injectMetadata(blob, category) {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onloadend = function () {
+      const base64Data = reader.result
+
+      // Слой 0th (IFD0) содержит основные теги
+      const zeroth = {}
+      // 270 — это стандартный тег ImageDescription (Описание)
+      zeroth[piexif.ImageIFD.ImageDescription] = category
+
+      const exifObj = { "0th": zeroth, "Exif": {}, "GPS": {} }
+      const exifBytes = piexif.dump(exifObj)
+
+      // Вшиваем метаданные в base64
+      const newBase64 = piexif.insert(exifBytes, base64Data)
+
+      // Превращаем обратно в Blob для скачивания
+      const byteString = atob(newBase64.split(',')[1])
+      const mimeString = newBase64.split(',')[0].split(':')[1].split(';')[0]
+      const ab = new ArrayBuffer(byteString.length)
+      const ia = new Uint8Array(ab)
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i)
+      }
+      resolve(new Blob([ab], { type: mimeString }))
+    }
+    reader.readAsDataURL(blob)
+  })
 }
