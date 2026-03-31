@@ -7,7 +7,7 @@ $medium-blue: #bdcef6;
 
 $neon-pink: #DE46D4;
 $neon-blue: #6BF8F9;
-$glass-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+$glass-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
 
 .limit {
   position: relative;
@@ -28,12 +28,12 @@ $glass-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01
 }
 
 *:before,
-*:after{
+*:after {
   box-sizing: border-box;
 }
 
 html,
-body{
+body {
   min-height: -moz-available;
   min-height: -webkit-fill-available;
   min-height: fill-available;
@@ -91,9 +91,10 @@ input[type=number] {
   padding-right: 8px;
 }
 
-.html-code-block{
+.html-code-block {
   height: 100px;
   flex-grow: 1;
+  width: 100%;
 }
 
 .input-number {
@@ -127,10 +128,10 @@ input[type=number] {
   }
 }
 
-.field{
+.field {
   position: relative;
-  
-  &:before{
+
+  &:before {
     content: '';
     position: absolute;
     left: 0;
@@ -143,7 +144,7 @@ input[type=number] {
     z-index: 1;
   }
 
-  &:after{
+  &:after {
     content: '';
     position: absolute;
     right: 0;
@@ -156,7 +157,7 @@ input[type=number] {
     z-index: 1;
   }
 
-  &__line{
+  &__line {
     position: absolute;
     left: 0;
     top: 0;
@@ -164,7 +165,7 @@ input[type=number] {
     height: 100%;
     pointer-events: none;
 
-    &:before{
+    &:before {
       content: '';
       position: absolute;
       left: 6px;
@@ -175,7 +176,7 @@ input[type=number] {
       z-index: 1;
     }
 
-    &:after{
+    &:after {
       content: '';
       position: absolute;
       right: 6px;
@@ -187,10 +188,10 @@ input[type=number] {
     }
   }
 
-  &__area{
-    border: 3px solid transparent; 
+  &__area {
+    border: 3px solid transparent;
     background: rgba(0, 0, 0, 0.2);
-    box-shadow: inset 0 0 8px $neon-pink,0 0 12px $neon-blue;
+    box-shadow: inset 0 0 8px $neon-pink, 0 0 12px $neon-blue;
     border-radius: 6px;
     padding: 0 10px;
     width: 120px;
@@ -199,27 +200,28 @@ input[type=number] {
     height: 40px;
     color: #f1f1f1;
     display: block;
+    overflow-y: auto;
 
-    &:hover{
+    &:hover {
       outline: 0;
-      box-shadow: inset 0 0 5px $neon-pink,0 0 8px $neon-blue;
+      box-shadow: inset 0 0 5px $neon-pink, 0 0 8px $neon-blue;
     }
 
     &:focus,
-    &:active{
+    &:active {
       outline: 0;
-      box-shadow: inset 0 0 2px $neon-pink,0 0 5px $neon-blue;
+      box-shadow: inset 0 0 2px $neon-pink, 0 0 5px $neon-blue;
     }
   }
 }
 
-.field-big{
+.field-big {
   position: relative;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  
-  &:before{
+
+  &:before {
     content: '';
     position: absolute;
     left: 0;
@@ -232,7 +234,7 @@ input[type=number] {
     z-index: 1;
   }
 
-  &:after{
+  &:after {
     content: '';
     position: absolute;
     right: 0;
@@ -245,7 +247,7 @@ input[type=number] {
     z-index: 1;
   }
 
-  &__line{
+  &__line {
     position: absolute;
     left: 0;
     top: 0;
@@ -253,7 +255,7 @@ input[type=number] {
     height: 100%;
     pointer-events: none;
 
-    &:before{
+    &:before {
       content: '';
       position: absolute;
       left: 16px;
@@ -264,7 +266,7 @@ input[type=number] {
       z-index: 1;
     }
 
-    &:after{
+    &:after {
       content: '';
       position: absolute;
       right: 16px;
@@ -276,11 +278,11 @@ input[type=number] {
     }
   }
 
-  &__area{
+  &__area {
     border: 3px solid transparent;
     background: linear-gradient(200deg, rgba(114, 225, 225, 0.05) 0%, rgba(114, 0, 225, 0.05) 100%);
     // background: rgba(0, 0, 0, 0.5);
-    box-shadow: inset 0 0 15px $neon-pink,0 0 15px $neon-blue;
+    box-shadow: inset 0 0 15px $neon-pink, 0 0 15px $neon-blue;
     border-radius: 16px;
     padding: 0 10px;
     width: 100%;
@@ -293,34 +295,34 @@ input[type=number] {
     padding: 17px;
     flex-grow: 1;
 
-    & *{
+    & * {
       color: #f1f1f1 !important;
       background-color: transparent !important;
     }
 
-    &:hover{
+    &:hover {
       outline: 0;
-      box-shadow: inset 0 0 8px $neon-pink,0 0 8px $neon-blue;
+      box-shadow: inset 0 0 8px $neon-pink, 0 0 8px $neon-blue;
     }
 
     &:focus,
-    &:active{
+    &:active {
       outline: 0;
-      box-shadow: inset 0 0 4px $neon-pink,0 0 4px $neon-blue;
+      box-shadow: inset 0 0 4px $neon-pink, 0 0 4px $neon-blue;
     }
   }
 
-  &__area_main{
-    box-shadow: inset 0 0 25px $neon-pink,0 0 25px $neon-blue;
+  &__area_main {
+    box-shadow: inset 0 0 25px $neon-pink, 0 0 25px $neon-blue;
 
-    &:hover{
+    &:hover {
       outline: 0;
-      box-shadow: inset 0 0 14px $neon-pink,0 0 14px $neon-blue;
+      box-shadow: inset 0 0 14px $neon-pink, 0 0 14px $neon-blue;
     }
 
     &:focus,
-    &:active{
-      box-shadow: inset 0 0 6px $neon-pink,0 0 6px $neon-blue;
+    &:active {
+      box-shadow: inset 0 0 6px $neon-pink, 0 0 6px $neon-blue;
     }
   }
 }
@@ -367,7 +369,7 @@ input[type=number] {
   position: relative;
   padding: 3px;
 
-  &__field{
+  &__field {
     border-radius: 8px;
     overflow: hidden;
     position: relative;
@@ -378,6 +380,12 @@ input[type=number] {
 
 .log-wrapper {
   margin-top: 24px;
+}
+
+.log {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .jpg-quality-block {
@@ -391,7 +399,7 @@ input[type=number] {
   width: 80px;
 }
 
-.flex-cols{
+.flex-cols {
   display: flex;
   align-items: stretch;
   align-content: stretch;
@@ -400,14 +408,14 @@ input[type=number] {
   min-height: calc(100vh - 92px - 40px - 48px - 100px);
   position: relative;
 
-  &_cat::before{
+  &_cat::before {
     content: '';
     display: block;
-    width: 100px;
-    height: 107px;
+    width: 80px;
+    height: 80px;
     position: absolute;
-    right: 3px;
-    top: -96px;
+    right: 12px;
+    top: -72px;
     background: url('../image/cat-8.png') center no-repeat;
     -webkit-background-size: contain;
     background-size: contain;
@@ -416,92 +424,89 @@ input[type=number] {
   }
 }
 
-.flex-col{
+.flex-col {
   width: calc(50% - 12px);
   display: flex;
   flex-direction: column;
 }
 
-.code-blocks-wrapper{
+.code-blocks-wrapper {
   display: flex;
   flex-direction: column;
   gap: 24px;
   flex-grow: 1;
 }
 
-.code-block{
+.code-block {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
-.code-inner-block{
+.code-inner-block {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
-.code-inner-block{
-  & .sm-main-headline{
+.code-inner-block {
+  & .sm-main-headline {
     margin-bottom: 10px;
   }
 }
 
-.primary-text-editor-wrapper{
+.primary-text-editor-wrapper {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
 }
 
-.primary-text-editor-bg{
+.primary-text-editor-bg {
   flex-grow: 1;
 }
 
-.primary-text-editor-block{
+.primary-text-editor-block {
   overflow-y: auto;
 }
 
-.mini-modal
-{
-    position: relative;
-    display: none;
+.mini-modal {
+  position: relative;
+  display: none;
 }
 
-.mini-modal._show{
+.mini-modal._show {
   display: block;
 }
 
-.mini-modal__modal
-{
+.mini-modal__modal {
   position: absolute;
   left: 0;
   top: calc(100% + 5px);
-    z-index: 80;
+  z-index: 80;
 
-    visibility: hidden;
+  visibility: hidden;
 
-    pointer-events: none;
+  pointer-events: none;
 
-    opacity: 0;
+  opacity: 0;
 
-    transition: opacity .2s linear, visibility .2s linear;
-    background-color: #fff;
-    border-radius: 8px;
-    min-width: 100%;
-    overflow: hidden;
+  transition: opacity .2s linear, visibility .2s linear;
+  background-color: #fff;
+  border-radius: 8px;
+  min-width: 100%;
+  overflow: hidden;
 }
 
-.mini-modal__modal._active
-{
-    visibility: visible;
+.mini-modal__modal._active {
+  visibility: visible;
 
-    pointer-events: auto;
+  pointer-events: auto;
 
-    opacity: 1;
+  opacity: 1;
 }
 
-.mini-modal__btn{
+.mini-modal__btn {
   display: block;
 
   border-radius: 8px;
@@ -522,7 +527,7 @@ input[type=number] {
   text-align: left;
   position: relative;
 
-  &::after{
+  &::after {
     content: '';
     position: absolute;
     right: 8px;
@@ -543,7 +548,7 @@ input[type=number] {
   }
 }
 
-.mini-modal__link{
+.mini-modal__link {
   display: block;
   width: 100%;
   border-radius: 0;
@@ -557,17 +562,17 @@ input[type=number] {
   cursor: pointer;
   transition: background-color .5s linear;
 
-  &._active{
+  &._active {
     background-color: rgba(0, 146, 255, 0.3);
   }
 
-  &:hover{
+  &:hover {
     background-color: rgba(0, 146, 255, 0.1);
   }
 }
 
 
-.canvas-pattern{
+.canvas-pattern {
   width: 100%;
   height: 100%;
   display: block;
@@ -591,7 +596,7 @@ input[type=number] {
   gap: 6px;
 }
 
-.button-number{
+.button-number {
   width: 34px;
   height: 40px;
   display: flex;
@@ -604,37 +609,38 @@ input[type=number] {
   color: $neon-blue;
   cursor: pointer;
 
-  svg{
+  svg {
     display: block;
     width: 16px;
     height: 4px;
     fill: currentColor;
   }
 
-  &.button-increment{
+  &.button-increment {
     color: $neon-pink;
-    svg{
+
+    svg {
       height: 20px;
     }
   }
 
-  &:hover svg{
+  &:hover svg {
     filter: drop-shadow(0 0 5px $neon-blue);
   }
 
-  &.button-increment:hover svg{
+  &.button-increment:hover svg {
     filter: drop-shadow(0 0 5px $neon-pink);
   }
 }
 
-.sm-main-headline{
+.sm-main-headline {
   font-size: 14px;
   font-weight: 500;
   color: $neon-pink;
   text-shadow: 0 0 5px $neon-pink, 0 0 15px $neon-pink, 0 0 25px $neon-pink;
 }
 
-.main-btn{
+.main-btn {
   position: relative;
   transform: skewX(-20deg);
   display: block;
@@ -648,7 +654,7 @@ input[type=number] {
   border: none;
   background: transparent;
 
-  &::before{
+  &::before {
     content: '';
     position: absolute;
     left: 0;
@@ -662,15 +668,15 @@ input[type=number] {
     transition: background-position .6s linear, box-shadow .3s linear;
   }
 
-  & span{
+  & span {
     position: relative;
     z-index: 1;
     transform: skewX(20deg);
     display: block;
     padding-right: 36px;
   }
-  
-  & svg{
+
+  & svg {
     position: absolute;
     right: 0;
     top: 50%;
@@ -678,7 +684,7 @@ input[type=number] {
     fill: currentColor;
   }
 
-  &:hover::before{
+  &:hover::before {
     background-position: 100% 50%;
     box-shadow: 0 0 10px $neon-pink;
   }
@@ -687,24 +693,25 @@ input[type=number] {
     min-width: 1px;
     padding-left: 10px;
     padding-right: 10px;
-    span{
+
+    span {
       padding-right: 26px;
     }
   }
 
-  &_icon + &_icon{
+  &_icon+&_icon {
     margin-left: -10px;
   }
 
-  &_marg{
+  &_marg {
     margin-left: auto;
   }
 
-  &_noicon span{
+  &_noicon span {
     padding-right: 0;
   }
 
-  &._active::before{
+  &._active::before {
     background-position: 50% 50%;
     box-shadow: 0 0 2px $neon-blue, 0 0 5px $neon-pink;
 
@@ -712,22 +719,23 @@ input[type=number] {
   }
 }
 
-.category-wrap{
+.category-wrap {
   display: none;
   gap: 20px;
   padding-left: 8px;
   padding-right: 8px;
 
-  &._show{
+  &._show {
     display: flex;
   }
 }
 
 @keyframes activePulse {
-  0%{
+  0% {
     box-shadow: 0 0 2px $neon-blue, 0 0 5px $neon-pink;
   }
-  100%{
+
+  100% {
     box-shadow: 0 0 15px $neon-blue, 0 0 20px $neon-pink;
   }
 }
@@ -735,25 +743,56 @@ input[type=number] {
 
 
 
-.output-glass{ margin-top:12px; background: rgba(0,0,0,0.35); border-radius:10px; padding:10px; border:1px solid rgba(255,255,255,0.03); color:#dfefff; line-height:1.45; 
-box-shadow: 0 0 8px $neon-blue, 0 0 24px $neon-pink, 0 0 48px $neon-blue;
-animation: panelPulse 3s infinite alternate;}
-@keyframes panelPulse {
-  0%{box-shadow:0 0 8px $neon-blue,0 0 24px $neon-pink,0 0 48px $neon-blue;}
-  50%{box-shadow:0 0 12px $neon-blue,0 0 30px $neon-pink,0 0 60px $neon-blue;}
-  100%{box-shadow:0 0 8px $neon-blue,0 0 24px $neon-pink,0 0 48px $neon-blue;}
+.output-glass {
+  margin-top: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  color: #dfefff;
+  line-height: 1.45;
+  box-shadow: 0 0 8px $neon-blue, 0 0 24px $neon-pink, 0 0 48px $neon-blue;
+  animation: panelPulse 3s infinite alternate;
 }
 
-.wewq2{
-  background: linear-gradient(90deg,$neon-pink,$neon-blue);
-  background-size:200% 200%;
-  color:#000; cursor:pointer;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 18px rgba(255,0,255,0.06);
+@keyframes panelPulse {
+  0% {
+    box-shadow: 0 0 8px $neon-blue, 0 0 24px $neon-pink, 0 0 48px $neon-blue;
+  }
+
+  50% {
+    box-shadow: 0 0 12px $neon-blue, 0 0 30px $neon-pink, 0 0 60px $neon-blue;
+  }
+
+  100% {
+    box-shadow: 0 0 8px $neon-blue, 0 0 24px $neon-pink, 0 0 48px $neon-blue;
+  }
+}
+
+.wewq2 {
+  background: linear-gradient(90deg, $neon-pink, $neon-blue);
+  background-size: 200% 200%;
+  color: #000;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 18px rgba(255, 0, 255, 0.06);
   animation: buttonGlow 4s ease infinite;
 }
-.wewq2:hover{ transform:translateY(-2px); box-shadow: 0 18px 40px rgba(0,0,0,0.6), 0 0 30px rgba(255,0,255,0.12); }
+
+.wewq2:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 0, 255, 0.12);
+}
+
 @keyframes buttonGlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }

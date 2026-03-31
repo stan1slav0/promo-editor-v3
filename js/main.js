@@ -442,11 +442,7 @@ function wrapSignatureImg(htmlContent) {
 }
 
 function addOneBr(htmlContent) {
-  return htmlContent.replace(/ю/gi, function (match, content) {
-    return `
-                    <br>
-        `
-  })
+  return htmlContent.replace(/ю/gi, '<br>')
 }
 
 function replaceTripleBrWithSingle(htmlContent) {
@@ -798,46 +794,40 @@ function removeStylesFromLists(htmlContent) {
 }
 
 function wrapTextInSpan(htmlContent) {
-  htmlContent = htmlContent.replace(/<img[^>]*src="([^"]*)"[^>]*>/gi, function (match, src) {
-
+  // Обработка картинок внутри текста
+  let processed = htmlContent.replace(/<img[^>]*src="([^"]*)"[^>]*>/gi, function (match, src) {
     const dynamicSrc = generateDynamicImgSrc(window.currentImgIdx++)
-
-    return `            </span>
-                       </td>
-                   </tr>
-                   <tr>
-                       <td class="img-bg-block" align="center" style="padding-top: 14px; padding-bottom: 14px;">
-                           <a href="urlhere" target="_blank">
-                               <img alt="video" height="auto"
+    return `</span></td></tr>
+            <tr><td class="img-bg-block" align="center" style="padding-top: 14px; padding-bottom: 14px;">
+                <a href="urlhere" target="_blank">
+                    <img alt="video" height="auto"
                                     src="${dynamicSrc}"
                                     style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;max-width: 560px;font-size:13px;"
                                     width="560"/>
-                           </a>
-                       </td>
-                    </tr>
-                    <tr>
-                       <td style="font-family:'Roboto', Arial, Helvetica, sans-serif;font-size:18px;font-style:normal;font-weight:normal;line-height:1.5;text-align:left;color:#000000;padding-top: 14px; padding-bottom: 14px;">
+                </a>
+            </td></tr>
+            <tr><td style="font-family:'Roboto', Arial, Helvetica, sans-serif;font-size:18px;font-style:normal;font-weight:normal;line-height:1.5;text-align:left;color:#000000;padding-top: 14px; padding-bottom: 14px;">
                             <span style="font-family:'Roboto', Arial, Helvetica, sans-serif;font-size:18px;font-style:normal;font-weight:normal;line-height:1.5;text-align:left;color:#000000;">`
   })
 
-  // Обертка всей таблицы остается без изменений
-  htmlContent = `<tr>
-                      <td style="font-family:'Roboto', Arial, Helvetica, sans-serif;font-size:18px;font-style:normal;font-weight:normal;line-height:1.5;text-align:left;color:#000000;padding-top: 14px; padding-bottom: 14px;">
-                                <span style="font-family:'Roboto', Arial, Helvetica, sans-serif;font-size:18px;font-style:normal;font-weight:normal;line-height:1.5;text-align:left;color:#000000;">
-                                    ${htmlContent}
-                                </span>
-                      </td>
-                    </tr>`
-
-  return htmlContent
+  return `<tr>
+    <td style="font-family:'Roboto', Arial, Helvetica, sans-serif;font-size:18px;font-style:normal;font-weight:normal;line-height:1.5;text-align:left;color:#000000;padding-top: 14px; padding-bottom: 14px;">
+      <span style="font-family:'Roboto', Arial, Helvetica, sans-serif;font-size:18px;font-style:normal;font-weight:normal;line-height:1.5;text-align:left;color:#000000;">
+        ${processed}
+      </span>
+    </td>
+  </tr>`
 }
 
 function cleanEmptyHtmlTags(htmlContent) {
   htmlContent = htmlContent.replace(/&nbsp;/g, ' ')
   htmlContent = htmlContent.replace(/<b>\s*<\/b>/g, '')
   htmlContent = htmlContent.replace(/<li>\s*<\/li>/g, '')
+  htmlContent = htmlContent.replace(/<span[^>]*>(?!\s*ю\s*)[\s]*<\/span>/gi, '')
+  htmlContent = htmlContent.replace(/<br>\s*<\/span>/g, '</span>')
   htmlContent = htmlContent.replace(/<br>\s*<br>\s*<br>\s*<br>/g, '<br><br>')
   htmlContent = htmlContent.replace(/<br>\s*<br>\s*<br>/g, '<br><br>')
+  htmlContent = htmlContent.replace(/(?:\s*<br\s*\/?>\s*)+(?=<\/span>|(\s*<\/td>))/gi, '')
   htmlContent = htmlContent.replace(/(<span[^>]*>)\s*<br><br>/gi, '$1')
   htmlContent = htmlContent.replace(/<\/a>\s*<a[^>]*>/g, ' ')
   htmlContent = htmlContent.replace(/<pre>/g, '')
@@ -877,6 +867,9 @@ function cleanEmptyHtmlTags(htmlContent) {
   htmlContent = htmlContent.replace(/<div[^>]*>\s*<\/div>/g, '')
   htmlContent = htmlContent.replace(/<td[^>]*>\s*<\/td>/g, '')
   htmlContent = htmlContent.replace(/<tr[^>]*>\s*<\/tr>/g, '')
+  htmlContent = htmlContent.replace(/(<span[^>]*>)\s*(?:<br\s*\/?>|ю|\s)+/gi, '$1')
+  htmlContent = htmlContent.replace(/(<td[^>]*>)\s*(?:<br\s*\/?>|ю|\s)+/gi, '$1')
+
   return htmlContent
 }
 
@@ -908,9 +901,15 @@ function wrapContentInFullTableStructure(htmlContent) {
   return fullTableStructure
 }
 
+function fixSpansWithBr(htmlContent) {
+  return htmlContent.replace(/<span[^>]*>\s*<br\s*\/?>\s*<\/span>/gi, 'ю')
+}
+
 async function exportHTML() {
   window.currentImgIdx = 1
   let editorContent = document.getElementById('editor').innerHTML
+
+  editorContent = editorContent.replace(/<span[^>]*>\s*<br\s*\/?>\s*<\/span>/gi, 'ю')
   editorContent = italicLinks(editorContent)
   editorContent = linksStyles(editorContent)
   editorContent = replaceAllEmojisAndSymbolsExcludingHTML(editorContent)
@@ -931,17 +930,19 @@ async function exportHTML() {
   editorContent = wrapSignatureImg(editorContent)
   editorContent = wrapFooterBlock(editorContent)
   editorContent = wrapFooterCenterBlock(editorContent)
+  editorContent = editorContent.replace(/(?:ю|\s|<br\s*\/?>)+(?=\s*<\/span>)/gi, '')
+  editorContent = editorContent.replace(/(<span[^>]*>)\s*(?:ю|<br\s*\/?>|\s)+/gi, '$1')
   editorContent = cleanEmptyHtmlTags(editorContent)
   editorContent = wrapContentInFullTableStructure(editorContent)
   editorContent = addOneBr(editorContent)
   editorContent = replaceTripleBrWithSingle(editorContent)
+  editorContent = editorContent.replace(/<\/tr>\s*<br\s*\/?>/gi, '</tr>')
+  editorContent = editorContent.replace(/<\/td>\s*<br\s*\/?>/gi, '</td>')
+  editorContent = editorContent.replace(/<\/span>\s*<br\s*\/?>/gi, '</span>')
 
   const prettyHtml = await formatWithPrettier(editorContent)
-
   document.getElementById('output').value = prettyHtml
-
   return prettyHtml
-
 }
 
 function downloadFile(content) {
@@ -1054,6 +1055,8 @@ function wrapContentInFullMjmlTableStructure(htmlContent) {
 async function exportMJML() {
   window.currentImgIdx = 1
   let editorContent = document.getElementById('editor').innerHTML
+
+  editorContent = editorContent.replace(/<span[^>]*>\s*<br\s*\/?>\s*<\/span>/gi, 'ю')
   editorContent = italicLinks(editorContent)
   editorContent = linksStyles(editorContent)
   editorContent = replaceAllEmojisAndSymbolsExcludingHTML(editorContent)
@@ -1074,13 +1077,16 @@ async function exportMJML() {
   editorContent = wrapSignatureImgMjml(editorContent)
   editorContent = wrapFooterBlockMjml(editorContent)
   editorContent = wrapFooterCenterBlockMjml(editorContent)
+  editorContent = editorContent.replace(/(?:ю|\s|<br\s*\/?>)+(?=\s*<\/div>)/gi, '')
+  editorContent = editorContent.replace(/(<div[^>]*>)\s*(?:ю|<br\s*\/?>|\s)+/gi, '$1')
   editorContent = cleanEmptyHtmlTags(editorContent)
   editorContent = wrapContentInFullMjmlTableStructure(editorContent)
   editorContent = addOneBr(editorContent)
   editorContent = replaceTripleBrWithSingle(editorContent)
+  editorContent = editorContent.replace(/<\/div>\s*<br\s*\/?>/gi, '</div>')
+  editorContent = editorContent.replace(/<\/td>\s*<br\s*\/?>/gi, '</td>')
 
   const prettyMjml = await formatWithPrettier(editorContent)
-
   document.getElementById('mjmlOutput').value = prettyMjml
 
   return prettyMjml
@@ -1240,7 +1246,6 @@ async function toJpeg600(blob, bgColor = '#ffffff') {
 async function downloadImagesFolder() {
   logEl.textContent = ''
   const imgs = Array.from(editor.querySelectorAll('img'))
-  if (!imgs.length) return log('Немає <img> у редакторі.')
 
   // 1. Определяем категорию по активной кнопке
   const activeCategoryBtn = document.querySelector('.category-wrap__link._active')
@@ -1290,7 +1295,8 @@ async function downloadImagesFolder() {
   }
 
   logEl.textContent = ''
-  log(`${saved} images saved.`)
+  if (imgs.length) return log(`${saved > 1 ? saved + ' images' : saved + ' image'} saved ✅`)
+
 }
 
 document.getElementById('btn-download').addEventListener('click', downloadImagesFolder)
@@ -1301,33 +1307,27 @@ editor.addEventListener('paste', (e) => {
   const hasFiles = items.some(it => it.kind === 'file')
   const html = e.clipboardData?.getData('text/html') || ''
   const hasImgs = /<img\b[^>]*src=/i.test(html)
-  const hasDataURIs = /src=["']data:image\//i.test(html)
-
-  // Находим наш блок категорий
-  const categoryModal = document.querySelector('.category-wrap')
-
-  if (hasFiles || hasDataURIs) {
-    log('Images ready to download ✅')
-    if (categoryModal) categoryModal.classList.add('_show') // Показываем
-  } else if (hasImgs) {
-    if (categoryModal) categoryModal.classList.add('_show') // Показываем
-  } else {
-    if (categoryModal) categoryModal.classList.remove('_show')
+  if (hasFiles || hasImgs) {
+    logEl.textContent = ''
   }
 })
 
 function updateCategoryVisibility() {
   const categoryModal = document.querySelector('.category-wrap')
-  const hasImagesInEditor = editor.querySelectorAll('img').length > 0
+  const images = editor.querySelectorAll('img')
+  const count = images.length
 
-  if (hasImagesInEditor) {
+  logEl.textContent = ''
+
+  if (count > 0) {
+    const word = count === 1 ? 'image' : 'images'
+    log(`${count} ${word} ready to download ✅`)
     categoryModal.classList.add('_show')
   } else {
     categoryModal.classList.remove('_show')
   }
 }
 
-// Отслеживаем любые изменения в редакторе (удаление/добавление картинок)
 const observer = new MutationObserver(() => {
   updateCategoryVisibility()
 })
@@ -1387,8 +1387,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  // Категории - використовуємо делегування для динамічних кнопок
-  // Категории - делегирование для динамических кнопок
   document.addEventListener('click', function (event) {
     const btn = event.target.closest('.category-wrap__link')
     if (btn) {
